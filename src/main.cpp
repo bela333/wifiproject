@@ -28,7 +28,7 @@ void *receiver_thread(void * data){
         localSock.sin_port = htons(1420);
         localSock.sin_addr.s_addr = inet_addr("224.0.39.69");
         sendto(arguments -> socket, data.data(), data.size(), NULL, (sockaddr*)&localSock, sizeof(localSock));
-        
+        std::cout << "Asd" << std::endl;
     }
 }
 
@@ -59,13 +59,14 @@ void *sender_thread(void * data){
 
 int main(int argc, char* argv[]) {
 
-    if (argc != 3) {
-        std::cout << "Usage: " << argv[0] << " <monitor interface> <switch mac address>" << std::endl;
+    if (argc != 4) {
+        std::cout << "Usage: " << argv[0] << " <monitor interface> <switch mac address> <interface address>" << std::endl;
         return 1;
     }
     Arguments arguments;
     arguments.interface = argv[1];
     arguments.switch_mac = argv[2];
+    auto interface_address = inet_addr(argv[3]);
 
     auto sock = socket(AF_INET, SOCK_DGRAM, 0);
     int reuse_addr = 1;
@@ -83,6 +84,9 @@ int main(int argc, char* argv[]) {
     group.imr_multiaddr.s_addr = inet_addr("224.0.39.69");
     group.imr_interface.s_addr = htons(0);
     if(setsockopt(sock, IPPROTO_IP, IP_ADD_MEMBERSHIP, &group, sizeof(group)) < 0)
+        throw "Error!";
+    
+    if(setsockopt(sock, IPPROTO_IP, IP_MULTICAST_IF, &interface_address, sizeof(interface_address)) < 0)
         throw "Error!";
 
     arguments.socket = sock;
