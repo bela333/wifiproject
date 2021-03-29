@@ -1,0 +1,3 @@
+[submodule "libtins"]
+	path = libtins
+	url = https://github.com/mfontanini/libtins.git
