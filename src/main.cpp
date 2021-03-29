@@ -60,7 +60,7 @@ void *sender_thread(void * data){
 
 int main(int argc, char* argv[]) {
 
-    if (argc != 3) {
+    if (argc != 4) {
         std::cout << "Usage: " << argv[0] << " <monitor interface> <switch mac address> <remote address>" << std::endl;
         return 1;
     }
