@@ -2,6 +2,8 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 using namespace Tins;
 
@@ -29,8 +31,9 @@ void *receiver_thread(void * data){
         sockaddr_in localSock = {};
         localSock.sin_family = AF_INET;
         localSock.sin_port = htons(1420);
-        localSock.sin_addr.s_addr = inet_addr("224.0.39.69");
+        localSock.sin_addr.s_addr = inet_addr("192.168.193.138");
         sendto(arguments -> socket, data.data(), data.size(), NULL, (sockaddr*)&localSock, sizeof(localSock));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
         //std::cout << "Received data!" << std::endl;
     }
 }

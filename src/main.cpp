@@ -42,6 +42,7 @@ void *sender_thread(void * data){
     arr.fill(0);
     while (1)
     {
+        std::cout << "RECEIVED" << std::endl;
         sockaddr_in localSock = {};
         localSock.sin_family = AF_INET;
         localSock.sin_port = htons(1420);
